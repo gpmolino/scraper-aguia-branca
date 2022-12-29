@@ -38,8 +38,9 @@ def aguia_branca_trips(city_origin: str, city_destination: str):
     return trip_list
 
 
-st.title('Aguia Branca Scrapper')
-origin = st.selectbox('Origem', ['linhares-es', 'vitoria-es', 'colatina-es', 'vicosa-mg'])
-destination = st.selectbox('Destino', ['linhares-es', 'vitoria-es', 'colatina-es', 'vicosa-mg'])
+with st.sidebar:
+    st.title('Aguia Branca Scrapper')
+    origin = st.selectbox('Origem', ['linhares-es', 'vitoria-es', 'colatina-es', 'vicosa-mg'])
+    destination = st.selectbox('Destino', ['vitoria-es', 'linhares-es', 'colatina-es', 'vicosa-mg'])
 
 st.table(aguia_branca_trips(origin, destination))
