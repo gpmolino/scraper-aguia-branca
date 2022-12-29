@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def aguia_branca_trips(origin: str, destination: str):
+def aguia_branca_trips(city_origin: str, city_destination: str):
     # Setup variables
     trip_list = []
     labels_list = ['idOrigem', 'origem', 'idDestino', 'destino', 'data', 'dataCorrida', 'servico', 'grupo', 'saida',
@@ -11,9 +11,9 @@ def aguia_branca_trips(origin: str, destination: str):
 
     # Get HTML page
     try:
-        response = requests.get(f'https://www.aguiabranca.com.br/onibus/{origin}/{destination}')
+        response = requests.get(f'https://www.aguiabranca.com.br/onibus/{city_origin}/{city_destination}')
         if response.status_code != 200:
-            print(f'Erro na requisição para https://www.aguiabranca.com.br/onibus/{origin}/{destination}')
+            print(f'Erro na requisição para https://www.aguiabranca.com.br/onibus/{city_origin}/{city_destination}')
     except Exception as err:
         print(f'Unexpected {err=}, {type(err)=}')
         # Break
@@ -23,7 +23,7 @@ def aguia_branca_trips(origin: str, destination: str):
 
     # Check if there is at least one trip
     if not bool(soup.find_all(id=0)):
-        print(f'Nenhuma viagem foi encontrada entre {origin} - {destination}')
+        print(f'Nenhuma viagem foi encontrada entre {city_origin} - {city_destination}')
     else:
         # Scraping process
         index = 0
@@ -33,7 +33,7 @@ def aguia_branca_trips(origin: str, destination: str):
                 trip_data[label] = soup.find('div', class_=f'offeringlist-info-{index} {label}').text
             trip_list.append(trip_data)
             index += 1
-        print(f'{index+1} viagem(s) encontrada(s) entre {origin} - {destination}')
+        print(f'{index+1} viagem(s) encontrada(s) entre {city_origin} - {city_destination}')
 
     return trip_list
 
